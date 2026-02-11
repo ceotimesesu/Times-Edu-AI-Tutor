@@ -1,0 +1,8 @@
+{
+  "name": "Times Edu AI Tutor",
+  "description": "A rigorous, academic AI tutor for IGCSE, A Level, IB, AP, SAT, and IELTS preparation, featuring both text and real-time voice tutoring modes.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
