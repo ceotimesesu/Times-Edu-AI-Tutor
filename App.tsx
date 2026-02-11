@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bot, Settings, BookOpen, GraduationCap, Mic, MessageSquare, Menu, X, KeyRound } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import ChatSession from './components/ChatSession';
 import LiveSession from './components/LiveSession';
 import { TutorMode } from './types';
@@ -190,6 +191,7 @@ const App: React.FC = () => {
             onClick={() => setIsSidebarOpen(false)}
         />
       )}
+      <SpeedInsights />
     </div>
   );
 };
