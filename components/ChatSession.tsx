@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { Message, TutorMode } from '../types';
-import { SYSTEM_INSTRUCTION } from '../constants';
+import { SYSTEM_INSTRUCTION, MATH_FOCUS } from '../constants';
 
 interface ChatSessionProps {
   mode: TutorMode;
@@ -94,11 +94,11 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
     {
       id: 'welcome',
       role: 'model',
-      text: `Hello! I'm your **Times Edu AI Tutor**. \n\nI'm ready to help you in **${
-        mode === 'teacher' ? 'Teacher Copilot' : 
-        mode === 'guide' ? 'Student Guide' : 
+      text: `Hello! I'm your **Times Edu AI Math Tutor** for **IGCSE & IB Mathematics**. \n\nI'm ready to help you in **${
+        mode === 'teacher' ? 'Teacher Copilot' :
+        mode === 'guide' ? 'Student Guide' :
         mode === 'explain' ? 'Simplistic' : 'Exam'
-      }** mode. \n\n### I can assist with:\n\n*   $\\\sqrt{x^2+y^2}$ **Math & Science** problems\n*   📝 **Essay Marking** & Feedback\n*   🔎 **Syllabus-aligned** explanations\n\nHow can I help you achieve your goals today?`,
+      }** mode. \n\n### I can help you:\n\n*   $\\\sqrt{x^2+y^2}$ Solve & understand **Math problems** step by step\n*   📐 Master **algebra, calculus, trig, statistics** and more\n*   📷 Get feedback on a **photo** of your working\n*   🔎 Revise with **syllabus-aligned** explanations\n\nWhat topic shall we work on today?`,
       timestamp: new Date(),
     }
   ]);
@@ -118,7 +118,7 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
     chatSessionRef.current = ai.chats.create({
       model: 'gemini-3-flash-preview',
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION + `\n\nCURRENT MODE: ${mode}`,
+        systemInstruction: SYSTEM_INSTRUCTION + MATH_FOCUS + `\n\nCURRENT MODE: ${mode}`,
         tools: [{ googleSearch: {} }], // Enable Search Grounding
       },
     });
