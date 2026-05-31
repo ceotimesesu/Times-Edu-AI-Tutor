@@ -80,8 +80,8 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="max-w-5xl mx-auto px-6 py-14">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-brand-navy">Choose your course</h2>
-            <p className="text-slate-500 mt-1">Aligned to the official Cambridge & IB syllabuses.</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-brand-navy dark:text-white">Choose your course</h2>
+            <p className="text-slate-500 dark:text-slate-400 mt-1">Aligned to the official Cambridge & IB syllabuses.</p>
           </div>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
@@ -89,20 +89,20 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <button
               key={course.id}
               onClick={() => onNavigate({ name: 'course', courseId: course.id })}
-              className="text-left group bg-white rounded-2xl border border-brand-beige shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden"
+              className="text-left group bg-white dark:bg-ink-800 rounded-2xl border border-brand-beige dark:border-ink-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden"
             >
               <div className={`h-2 bg-gradient-to-r ${course.accent}`} />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-beige text-brand-navy">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-slate-200">
                     {course.board}
                   </span>
                   <Sigma className="text-brand-gold" size={22} />
                 </div>
-                <h3 className="font-bold text-lg text-brand-navy leading-tight mb-1">{course.title}</h3>
+                <h3 className="font-bold text-lg text-brand-navy dark:text-white leading-tight mb-1">{course.title}</h3>
                 <p className="text-xs text-brand-gold font-semibold mb-3">{course.level}</p>
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">{course.tagline}</p>
-                <div className="flex items-center gap-1 text-sm font-semibold text-brand-navy group-hover:text-brand-gold transition-colors">
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{course.tagline}</p>
+                <div className="flex items-center gap-1 text-sm font-semibold text-brand-navy dark:text-white group-hover:text-brand-gold transition-colors">
                   {course.topics.length} topics
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -113,9 +113,9 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* Features */}
-      <section className="bg-white border-y border-brand-beige">
+      <section className="bg-white dark:bg-ink-800 border-y border-brand-beige dark:border-ink-700">
         <div className="max-w-5xl mx-auto px-6 py-14">
-          <h2 className="text-2xl md:text-3xl font-bold text-brand-navy text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-brand-navy dark:text-white text-center mb-10">
             Everything you need to revise smarter
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -136,12 +136,12 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 body: 'Stuck on a problem? Get Socratic hints, marking and feedback — even from a photo.',
               },
             ].map((f) => (
-              <div key={f.title} className="p-6 rounded-2xl bg-brand-beige/40 border border-brand-beige">
+              <div key={f.title} className="p-6 rounded-2xl bg-brand-beige/40 dark:bg-ink-700/50 border border-brand-beige dark:border-ink-700">
                 <div className="w-11 h-11 rounded-xl bg-brand-navy text-brand-gold flex items-center justify-center mb-4">
                   <f.icon size={22} />
                 </div>
-                <h3 className="font-bold text-brand-navy mb-2">{f.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{f.body}</p>
+                <h3 className="font-bold text-brand-navy dark:text-white mb-2">{f.title}</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{f.body}</p>
               </div>
             ))}
           </div>
@@ -179,7 +179,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      <footer className="text-center py-8 text-xs text-slate-400 border-t border-brand-beige">
+      <footer className="text-center py-8 text-xs text-slate-400 border-t border-brand-beige dark:border-ink-700">
         Times Edu AI Tutor · Aligned to Cambridge IGCSE (0580) & IB Diploma Mathematics
       </footer>
     </div>

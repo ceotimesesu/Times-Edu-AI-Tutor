@@ -14,6 +14,15 @@ self-study course content with an AI tutor:
 - **AI tutor** — a Gemini-powered chat (and beta live-voice) tutor with Socratic
   "Guide me", "Explain simply" and "Exam" modes. Upload a photo of your working for
   feedback. *(Requires a Gemini API key; the rest of the site works without one.)*
+- **Quiz mode** — pick a course and number of questions for a timed, self-marked quiz
+  with a score summary.
+- **Mock exam papers** — full practice papers per course with marks and detailed
+  mark schemes.
+- **Progress tracking** — mark topics complete, bookmark topics, log practice results
+  and quiz scores. A **dashboard** shows per-course progress, bookmarks and quiz
+  history. Everything persists in the browser (localStorage).
+- **Polish** — global search (`⌘K` / `/`) across topics and formulas, a light/dark
+  theme toggle, smooth animations and full keyboard navigation in search.
 
 ## Tech stack
 
@@ -23,14 +32,20 @@ React 19 + TypeScript + Vite, Tailwind CSS, `react-markdown` + `remark-math` +
 ## Project structure
 
 ```
-App.tsx                  Top-level nav + view router
-data/curriculum.ts       All course / topic / formula / practice content
+App.tsx                  Top-level nav, theme toggle, search + view router
+hooks/appState.tsx       Progress / bookmarks / quiz / theme (localStorage) context
+data/curriculum.ts       All course / topic / formula / practice content + search
+data/exams.ts            Mock exam papers + mark schemes
 components/
   HomePage.tsx           Landing page
-  CoursesIndex.tsx       Course grid
-  CoursePage.tsx         Topic list for a course
+  CoursesIndex.tsx       Course grid (with progress)
+  CoursePage.tsx         Topic list for a course (with progress bar)
   TopicPage.tsx          Lesson, formulas, examples, interactive practice
   FormulaSheet.tsx       Searchable formula reference
+  Dashboard.tsx          Progress, bookmarks and quiz history
+  QuizView.tsx           Timed, self-marked quiz mode
+  Exams.tsx              Exam paper list + paper viewer
+  SearchModal.tsx        Global ⌘K search
   TutorView.tsx          AI tutor (chat / live voice) + API-key gate
   ChatSession.tsx        Gemini text chat
   LiveSession.tsx        Gemini live voice

@@ -17,17 +17,17 @@ const TutorView: React.FC<TutorViewProps> = ({ apiKey, onKeySubmit }) => {
   if (!apiKey) {
     return (
       <div className="h-full flex items-center justify-center p-6">
-        <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-brand-beige">
+        <div className="bg-white dark:bg-ink-800 p-8 rounded-2xl shadow-xl w-full max-w-md border border-brand-beige dark:border-ink-700">
           <div className="flex items-center gap-3 mb-5 text-brand-navy">
             <div className="w-12 h-12 rounded-xl bg-brand-navy text-brand-gold flex items-center justify-center">
               <KeyRound size={24} />
             </div>
             <div>
-              <h2 className="text-xl font-bold">Connect the AI Tutor</h2>
+              <h2 className="text-xl font-bold dark:text-white">Connect the AI Tutor</h2>
               <p className="text-xs text-brand-gold font-semibold">Powered by Google Gemini</p>
             </div>
           </div>
-          <p className="text-slate-600 mb-5 text-sm leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-400 mb-5 text-sm leading-relaxed">
             Browsing lessons, formulas and practice needs no key. To chat with the live AI tutor, paste a
             Gemini API key — it stays in your browser and is never sent to our servers.
           </p>
@@ -43,7 +43,7 @@ const TutorView: React.FC<TutorViewProps> = ({ apiKey, onKeySubmit }) => {
               name="key"
               type="password"
               placeholder="Gemini API key"
-              className="w-full p-3.5 bg-brand-beige border border-slate-200 rounded-xl mb-3 focus:ring-2 focus:ring-brand-gold outline-none text-brand-navy"
+              className="w-full p-3.5 bg-brand-beige dark:bg-ink-700 border border-slate-200 dark:border-ink-600 rounded-xl mb-3 focus:ring-2 focus:ring-brand-gold outline-none text-brand-navy dark:text-white"
               autoFocus
             />
             <button
@@ -70,11 +70,11 @@ const TutorView: React.FC<TutorViewProps> = ({ apiKey, onKeySubmit }) => {
     <div className="h-full flex flex-col p-4 md:p-6 gap-4">
       {/* Controls */}
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-        <div className="flex gap-1 bg-white border border-brand-beige rounded-xl p-1 w-fit">
+        <div className="flex gap-1 bg-white dark:bg-ink-800 border border-brand-beige dark:border-ink-700 rounded-xl p-1 w-fit">
           <button
             onClick={() => setActiveTab('chat')}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              activeTab === 'chat' ? 'bg-brand-navy text-white' : 'text-slate-500 hover:bg-brand-beige'
+              activeTab === 'chat' ? 'bg-brand-navy text-white' : 'text-slate-500 dark:text-slate-300 hover:bg-brand-beige dark:hover:bg-ink-700'
             }`}
           >
             <MessageSquare size={16} /> Text Chat
@@ -82,7 +82,7 @@ const TutorView: React.FC<TutorViewProps> = ({ apiKey, onKeySubmit }) => {
           <button
             onClick={() => setActiveTab('live')}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              activeTab === 'live' ? 'bg-brand-navy text-white' : 'text-slate-500 hover:bg-brand-beige'
+              activeTab === 'live' ? 'bg-brand-navy text-white' : 'text-slate-500 dark:text-slate-300 hover:bg-brand-beige dark:hover:bg-ink-700'
             }`}
           >
             <Mic size={16} /> Live Voice
@@ -93,7 +93,7 @@ const TutorView: React.FC<TutorViewProps> = ({ apiKey, onKeySubmit }) => {
         <select
           value={tutorMode}
           onChange={(e) => setTutorMode(e.target.value as TutorMode)}
-          className="bg-white border border-brand-beige rounded-xl px-4 py-2.5 text-sm font-semibold text-brand-navy outline-none focus:ring-2 focus:ring-brand-gold/30 cursor-pointer"
+          className="bg-white dark:bg-ink-800 border border-brand-beige dark:border-ink-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-brand-navy dark:text-white outline-none focus:ring-2 focus:ring-brand-gold/30 cursor-pointer"
         >
           {TUTOR_MODES.map((m) => (
             <option key={m.id} value={m.id}>

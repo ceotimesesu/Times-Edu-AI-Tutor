@@ -19,7 +19,11 @@ const Markdown: React.FC<MarkdownProps> = ({ children, invert = false, className
   return (
     <div
       className={`prose prose-base max-w-none
-        ${invert ? 'prose-invert prose-p:text-slate-100 prose-headings:text-white' : 'prose-slate prose-p:text-slate-700 prose-headings:text-brand-navy'}
+        ${
+          invert
+            ? 'prose-invert prose-p:text-slate-100 prose-headings:text-white'
+            : 'prose-slate prose-p:text-slate-700 prose-headings:text-brand-navy dark:prose-invert dark:prose-p:text-slate-300 dark:prose-headings:text-white dark:prose-strong:text-white'
+        }
         prose-headings:font-bold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base
         prose-p:leading-relaxed
         prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline
@@ -33,18 +37,28 @@ const Markdown: React.FC<MarkdownProps> = ({ children, invert = false, className
         rehypePlugins={[rehypeKatex]}
         components={{
           table: ({ node, ...props }) => (
-            <div className="overflow-x-auto my-4 rounded-xl border border-slate-200 shadow-sm">
-              <table className="w-full text-sm text-left border-collapse bg-white text-slate-700" {...props} />
+            <div className="overflow-x-auto my-4 rounded-xl border border-slate-200 dark:border-ink-600 shadow-sm">
+              <table
+                className="w-full text-sm text-left border-collapse bg-white dark:bg-ink-800 text-slate-700 dark:text-slate-300"
+                {...props}
+              />
             </div>
           ),
           thead: ({ node, ...props }) => (
-            <thead className="bg-brand-beige text-brand-navy uppercase text-xs font-bold tracking-wider" {...props} />
+            <thead
+              className="bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-white uppercase text-xs font-bold tracking-wider"
+              {...props}
+            />
           ),
-          th: ({ node, ...props }) => <th className="px-5 py-3 border-b border-brand-gold/20" {...props} />,
+          th: ({ node, ...props }) => (
+            <th className="px-5 py-3 border-b border-brand-gold/20" {...props} />
+          ),
           td: ({ node, ...props }) => (
-            <td className="px-5 py-3 border-b border-slate-100 last:border-0" {...props} />
+            <td className="px-5 py-3 border-b border-slate-100 dark:border-ink-700 last:border-0" {...props} />
           ),
-          tr: ({ node, ...props }) => <tr className="hover:bg-slate-50 transition-colors" {...props} />,
+          tr: ({ node, ...props }) => (
+            <tr className="hover:bg-slate-50 dark:hover:bg-ink-700/50 transition-colors" {...props} />
+          ),
           a: ({ node, ...props }) => (
             <a
               target="_blank"

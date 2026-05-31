@@ -470,6 +470,145 @@ $$ P(\\text{event}) = \\frac{\\text{number of favourable outcomes}}{\\text{total
         },
       ],
     },
+    {
+      id: 'coordinate-geometry',
+      title: 'Coordinate Geometry',
+      summary: 'Midpoints, distances, gradients and the equation of a line.',
+      content: `
+## Working on the grid
+Coordinate geometry connects algebra and shape. Given two points $A(x_1,y_1)$ and $B(x_2,y_2)$:
+
+**Midpoint** — average the coordinates:
+$$ M = \\left( \\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2} \\right). $$
+
+**Distance** — Pythagoras in disguise:
+$$ AB = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}. $$
+
+**Gradient**:
+$$ m = \\frac{y_2-y_1}{x_2-x_1}. $$
+
+## Equation of a line
+Use $y - y_1 = m(x - x_1)$ then rearrange into $y = mx + c$. Parallel lines share $m$; perpendicular gradients satisfy $m_1 m_2 = -1$.
+
+## Tip
+Always sketch the points first — a quick diagram catches sign errors and tells you whether your answer is sensible.
+`,
+      formulas: [
+        { name: 'Midpoint', expr: 'M = \\left(\\tfrac{x_1+x_2}{2}, \\tfrac{y_1+y_2}{2}\\right)' },
+        { name: 'Distance', expr: '\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}' },
+        { name: 'Gradient', expr: 'm = \\dfrac{y_2-y_1}{x_2-x_1}' },
+        { name: 'Perpendicular', expr: 'm_1 m_2 = -1' },
+      ],
+      examples: [
+        {
+          problem: 'Find the midpoint and length of the segment joining $A(1,2)$ and $B(7,10)$.',
+          solution:
+            'Midpoint $= \\left(\\tfrac{1+7}{2}, \\tfrac{2+10}{2}\\right) = (4,6)$.\nLength $= \\sqrt{6^2+8^2} = \\sqrt{100} = 10.$',
+        },
+        {
+          problem: 'Find the equation of the line through $(2,3)$ perpendicular to $y = 2x + 1$.',
+          solution:
+            'Perpendicular gradient $= -\\tfrac12$. Then $y - 3 = -\\tfrac12(x-2)$, giving $y = -\\tfrac12 x + 4.$',
+        },
+      ],
+      practice: [
+        {
+          id: 'coord-1',
+          difficulty: 'Easy',
+          question: 'Find the midpoint of $(2, 4)$ and $(8, 10)$.',
+          answer: '$(5, 7)$',
+        },
+        {
+          id: 'coord-2',
+          difficulty: 'Medium',
+          question: 'Find the distance between $(-1, 2)$ and $(2, 6)$.',
+          answer: '$5$',
+          solution: '$\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.',
+        },
+        {
+          id: 'coord-3',
+          difficulty: 'Medium',
+          question: 'A line has gradient $3$ and passes through $(1, -2)$. Find its equation.',
+          answer: '$y = 3x - 5$',
+          solution: '$y - (-2) = 3(x-1) \\Rightarrow y + 2 = 3x - 3 \\Rightarrow y = 3x - 5$.',
+        },
+        {
+          id: 'coord-4',
+          difficulty: 'Hard',
+          question: 'The points $A(0,1)$, $B(4,3)$ and $C(2,k)$ form a right angle at $B$. Find $k$.',
+          answer: '$k = 7$',
+          solution:
+            'Gradient $AB = \\tfrac{3-1}{4-0} = \\tfrac12$, so $BC$ must have gradient $-2$: $\\tfrac{k-3}{2-4} = -2 \\Rightarrow k - 3 = 4 \\Rightarrow k = 7$.',
+        },
+      ],
+    },
+    {
+      id: 'vectors-transformations',
+      title: 'Vectors & Transformations',
+      summary: 'Column vectors, magnitude, and translations, reflections, rotations & enlargements.',
+      content: `
+## Vectors
+A **column vector** $\\begin{pmatrix} x \\\\ y \\end{pmatrix}$ describes a movement: $x$ across, $y$ up. Add and subtract componentwise, and scale by multiplying each component.
+
+The **magnitude** (length) is
+$$ \\left| \\begin{pmatrix} x \\\\ y \\end{pmatrix} \\right| = \\sqrt{x^2 + y^2}. $$
+Parallel vectors are scalar multiples of one another.
+
+## Transformations
+| Transformation | What you must state |
+|---|---|
+| **Translation** | a column vector |
+| **Reflection** | the mirror line (e.g. $y = x$) |
+| **Rotation** | centre, angle and direction |
+| **Enlargement** | centre and scale factor $k$ |
+
+For an enlargement with scale factor $k$: lengths multiply by $k$, areas by $k^2$. A negative $k$ also turns the shape through the centre.
+`,
+      formulas: [
+        { name: 'Vector addition', expr: '\\begin{pmatrix}a\\\\b\\end{pmatrix} + \\begin{pmatrix}c\\\\d\\end{pmatrix} = \\begin{pmatrix}a+c\\\\b+d\\end{pmatrix}' },
+        { name: 'Magnitude', expr: '\\left|\\begin{pmatrix}x\\\\y\\end{pmatrix}\\right| = \\sqrt{x^2+y^2}' },
+        { name: 'Enlarged area', expr: '\\text{area} \\times k^2' },
+      ],
+      examples: [
+        {
+          problem: 'Given $\\mathbf{a} = \\begin{pmatrix}3\\\\-1\\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix}1\\\\4\\end{pmatrix}$, find $2\\mathbf{a} + \\mathbf{b}$.',
+          solution: '$2\\mathbf{a} = \\begin{pmatrix}6\\\\-2\\end{pmatrix}$, so $2\\mathbf{a}+\\mathbf{b} = \\begin{pmatrix}7\\\\2\\end{pmatrix}.$',
+        },
+        {
+          problem: 'Find the magnitude of $\\begin{pmatrix}5\\\\12\\end{pmatrix}$.',
+          solution: '$\\sqrt{5^2 + 12^2} = \\sqrt{169} = 13.$',
+        },
+      ],
+      practice: [
+        {
+          id: 'vec-1',
+          difficulty: 'Easy',
+          question: 'Find $\\begin{pmatrix}2\\\\5\\end{pmatrix} + \\begin{pmatrix}3\\\\-2\\end{pmatrix}$.',
+          answer: '$\\begin{pmatrix}5\\\\3\\end{pmatrix}$',
+        },
+        {
+          id: 'vec-2',
+          difficulty: 'Medium',
+          question: 'Find the magnitude of $\\begin{pmatrix}-6\\\\8\\end{pmatrix}$.',
+          answer: '$10$',
+          solution: '$\\sqrt{(-6)^2 + 8^2} = \\sqrt{100} = 10$.',
+        },
+        {
+          id: 'vec-3',
+          difficulty: 'Medium',
+          question: 'A shape of area $6\\ \\text{cm}^2$ is enlarged by scale factor $3$. Find the new area.',
+          answer: '$54\\ \\text{cm}^2$',
+          solution: 'Area scales by $k^2 = 9$: $6 \\times 9 = 54$.',
+        },
+        {
+          id: 'vec-4',
+          difficulty: 'Hard',
+          question: 'Given $\\overrightarrow{AB} = \\begin{pmatrix}4\\\\2\\end{pmatrix}$ and $\\overrightarrow{BC} = \\begin{pmatrix}-1\\\\3\\end{pmatrix}$, find $\\overrightarrow{AC}$ and its magnitude (3 s.f.).',
+          answer: '$\\overrightarrow{AC} = \\begin{pmatrix}3\\\\5\\end{pmatrix}$, magnitude $5.83$',
+          solution: '$\\overrightarrow{AC} = \\overrightarrow{AB} + \\overrightarrow{BC} = \\begin{pmatrix}3\\\\5\\end{pmatrix}$; magnitude $= \\sqrt{9+25} = \\sqrt{34} = 5.83$.',
+        },
+      ],
+    },
   ],
 };
 
@@ -851,6 +990,73 @@ $X \\sim N(\\mu, \\sigma^2)$ is the classic bell curve, symmetric about $\\mu$. 
         },
       ],
     },
+    {
+      id: 'vectors',
+      title: 'Vectors (HL)',
+      summary: 'Vector algebra, the scalar (dot) product, and lines in 2D & 3D.',
+      content: `
+## Vectors in 2D and 3D
+A vector $\\mathbf{a} = \\begin{pmatrix} a_1 \\\\ a_2 \\\\ a_3 \\end{pmatrix}$ has magnitude
+$$ |\\mathbf{a}| = \\sqrt{a_1^2 + a_2^2 + a_3^2}. $$
+A **unit vector** in the direction of $\\mathbf{a}$ is $\\hat{\\mathbf{a}} = \\dfrac{1}{|\\mathbf{a}|}\\mathbf{a}$.
+
+## The scalar (dot) product
+$$ \\mathbf{a}\\cdot\\mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3 = |\\mathbf{a}||\\mathbf{b}|\\cos\\theta. $$
+This is the key tool for **angles** between vectors. Two non-zero vectors are **perpendicular** exactly when $\\mathbf{a}\\cdot\\mathbf{b} = 0$.
+
+## Vector equation of a line
+A line through point $\\mathbf{a}$ with direction $\\mathbf{d}$ is
+$$ \\mathbf{r} = \\mathbf{a} + \\lambda\\mathbf{d}, \\quad \\lambda \\in \\mathbb{R}. $$
+To find where two lines meet, set their equations equal and solve for the parameters; if no consistent solution exists in 3D, the lines are skew.
+`,
+      formulas: [
+        { name: 'Magnitude', expr: '|\\mathbf{a}| = \\sqrt{a_1^2 + a_2^2 + a_3^2}' },
+        { name: 'Dot product', expr: '\\mathbf{a}\\cdot\\mathbf{b} = |\\mathbf{a}||\\mathbf{b}|\\cos\\theta' },
+        { name: 'Angle between', expr: '\\cos\\theta = \\dfrac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}' },
+        { name: 'Line (vector form)', expr: '\\mathbf{r} = \\mathbf{a} + \\lambda\\mathbf{d}' },
+      ],
+      examples: [
+        {
+          problem: 'Find the angle between $\\mathbf{a} = \\begin{pmatrix}1\\\\2\\\\2\\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix}2\\\\0\\\\1\\end{pmatrix}$.',
+          solution:
+            '$\\mathbf{a}\\cdot\\mathbf{b} = 2 + 0 + 2 = 4$, $|\\mathbf{a}| = 3$, $|\\mathbf{b}| = \\sqrt5$. So $\\cos\\theta = \\dfrac{4}{3\\sqrt5} = 0.596$, giving $\\theta = 53.4^\\circ.$',
+        },
+        {
+          problem: 'Show that $\\begin{pmatrix}3\\\\1\\end{pmatrix}$ and $\\begin{pmatrix}-2\\\\6\\end{pmatrix}$ are perpendicular.',
+          solution: 'Dot product $= 3(-2) + 1(6) = -6 + 6 = 0$, so the vectors are perpendicular.',
+        },
+      ],
+      practice: [
+        {
+          id: 'aa-vec-1',
+          difficulty: 'Easy',
+          question: 'Find $\\left|\\begin{pmatrix}2\\\\3\\\\6\\end{pmatrix}\\right|$.',
+          answer: '$7$',
+          solution: '$\\sqrt{4 + 9 + 36} = \\sqrt{49} = 7$.',
+        },
+        {
+          id: 'aa-vec-2',
+          difficulty: 'Medium',
+          question: 'Find $\\begin{pmatrix}1\\\\-2\\\\3\\end{pmatrix} \\cdot \\begin{pmatrix}4\\\\0\\\\-1\\end{pmatrix}$.',
+          answer: '$1$',
+          solution: '$1(4) + (-2)(0) + 3(-1) = 4 - 3 = 1$.',
+        },
+        {
+          id: 'aa-vec-3',
+          difficulty: 'Medium',
+          question: 'Find the value of $t$ for which $\\begin{pmatrix}t\\\\3\\end{pmatrix}$ and $\\begin{pmatrix}2\\\\-4\\end{pmatrix}$ are perpendicular.',
+          answer: '$t = 6$',
+          solution: '$2t - 12 = 0 \\Rightarrow t = 6$.',
+        },
+        {
+          id: 'aa-vec-4',
+          difficulty: 'Hard',
+          question: 'A line is $\\mathbf{r} = \\begin{pmatrix}1\\\\0\\end{pmatrix} + \\lambda\\begin{pmatrix}2\\\\3\\end{pmatrix}$. Find the point where $\\lambda = 2$.',
+          answer: '$(5, 6)$',
+          solution: '$\\begin{pmatrix}1\\\\0\\end{pmatrix} + 2\\begin{pmatrix}2\\\\3\\end{pmatrix} = \\begin{pmatrix}5\\\\6\\end{pmatrix}$.',
+        },
+      ],
+    },
   ],
 };
 
@@ -1202,6 +1408,71 @@ where $h = \\dfrac{b-a}{n}$ is the strip width. More strips → better estimate.
         },
       ],
     },
+    {
+      id: 'graph-theory',
+      title: 'Graph Theory & Networks (HL)',
+      summary: 'Graphs, adjacency matrices, trees and shortest-path / minimum-spanning-tree algorithms.',
+      content: `
+## What is a graph?
+In graph theory a **graph** is a set of **vertices** (nodes) joined by **edges**. The **degree** of a vertex is the number of edges meeting it. A graph models anything from road networks to social connections.
+
+## Representing graphs
+An **adjacency matrix** records the number of direct edges between each pair of vertices. Raising the matrix to the power $n$ counts the **walks of length $n$** between vertices — a neat application of matrix multiplication.
+
+## Trees & spanning trees
+A **tree** is a connected graph with no cycles; a graph with $n$ vertices and no cycles that is connected has exactly $n-1$ edges. A **minimum spanning tree** connects every vertex with the least total weight — found with **Kruskal's** or **Prim's** algorithm.
+
+## Classic algorithms
+- **Dijkstra's algorithm** — shortest path from a start vertex to all others.
+- **Eulerian trail** — uses every edge once; exists iff $0$ or $2$ vertices have odd degree.
+- **Chinese postman / travelling salesman** — optimisation problems on weighted graphs.
+`,
+      formulas: [
+        { name: 'Handshaking lemma', expr: '\\sum \\deg(v) = 2E' },
+        { name: 'Tree edges', expr: 'E = V - 1' },
+        { name: 'Walks of length n', expr: '(\\text{adjacency matrix})^{n}' },
+      ],
+      examples: [
+        {
+          problem: 'A graph has vertices of degree $3, 3, 2, 2, 2$. How many edges does it have?',
+          solution: 'Sum of degrees $= 12 = 2E$, so $E = 6$ edges.',
+        },
+        {
+          problem: 'Does a graph with exactly two vertices of odd degree have an Eulerian trail?',
+          solution: 'Yes — an Eulerian trail (not circuit) exists precisely when there are 0 or 2 odd-degree vertices.',
+        },
+      ],
+      practice: [
+        {
+          id: 'ai-gr-1',
+          difficulty: 'Easy',
+          question: 'A tree has 8 vertices. How many edges does it have?',
+          answer: '$7$',
+          solution: 'A tree on $V$ vertices has $V - 1 = 7$ edges.',
+        },
+        {
+          id: 'ai-gr-2',
+          difficulty: 'Medium',
+          question: 'The degrees of the vertices of a graph are $4, 3, 3, 2$. How many edges are there?',
+          answer: '$6$',
+          solution: 'Sum $= 12 = 2E \\Rightarrow E = 6$.',
+        },
+        {
+          id: 'ai-gr-3',
+          difficulty: 'Medium',
+          question: 'A connected graph has 5 odd-degree vertices. Can it have an Eulerian circuit?',
+          answer: 'No',
+          solution: 'An Eulerian circuit needs every vertex to have even degree; here 5 are odd (and a count of odd vertices is always even, so this graph cannot actually exist).',
+        },
+        {
+          id: 'ai-gr-4',
+          difficulty: 'Hard',
+          question: 'A minimum spanning tree of a 6-vertex network is required. How many edges will it contain?',
+          answer: '$5$',
+          solution: 'A spanning tree of $V$ vertices has $V - 1 = 5$ edges.',
+        },
+      ],
+    },
   ],
 };
 
@@ -1214,4 +1485,45 @@ export function findCourse(courseId: string): Course | undefined {
 export function findTopic(courseId: string, topicId: string) {
   const course = findCourse(courseId);
   return course?.topics.find((t) => t.id === topicId);
+}
+
+export interface SearchResult {
+  type: 'topic' | 'formula';
+  courseId: string;
+  courseTitle: string;
+  board: string;
+  topicId: string;
+  topicTitle: string;
+  label: string; // formula name or topic summary
+}
+
+/** Lightweight search across topics and formulas for the global search bar. */
+export function searchContent(query: string, limit = 20): SearchResult[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const results: SearchResult[] = [];
+  for (const course of COURSES) {
+    for (const topic of course.topics) {
+      const base = {
+        courseId: course.id,
+        courseTitle: course.title,
+        board: course.board,
+        topicId: topic.id,
+        topicTitle: topic.title,
+      };
+      if (
+        topic.title.toLowerCase().includes(q) ||
+        topic.summary.toLowerCase().includes(q) ||
+        course.title.toLowerCase().includes(q)
+      ) {
+        results.push({ ...base, type: 'topic', label: topic.summary });
+      }
+      for (const f of topic.formulas) {
+        if (f.name.toLowerCase().includes(q)) {
+          results.push({ ...base, type: 'formula', label: f.name });
+        }
+      }
+    }
+  }
+  return results.slice(0, limit);
 }

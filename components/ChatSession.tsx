@@ -300,13 +300,13 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-brand-beige overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:bg-ink-800 rounded-xl shadow-sm border border-brand-beige dark:border-ink-700 overflow-hidden">
       {/* Header Area */}
-      <div className="p-3 px-4 border-b border-brand-beige flex justify-between items-center bg-brand-beige/30">
+      <div className="p-3 px-4 border-b border-brand-beige dark:border-ink-700 flex justify-between items-center bg-brand-beige/30 dark:bg-ink-700/40">
         <div className="flex items-center gap-3">
             <div className={`w-2.5 h-2.5 rounded-full ring-2 ring-white shadow-sm ${mode === 'teacher' ? 'bg-purple-500' : 'bg-green-500'}`}></div>
             <div>
-                <h2 className="font-bold text-brand-navy text-sm leading-none">
+                <h2 className="font-bold text-brand-navy dark:text-white text-sm leading-none">
                     {mode === 'teacher' ? 'Teacher Copilot' : 
                     mode === 'guide' ? 'Student: Guide Me' : 
                     mode === 'explain' ? 'Student: Simplified' : 'Student: Exam Mode'}
@@ -335,8 +335,8 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
                 msg.role === 'user'
                   ? 'bg-brand-navy text-white rounded-br-none'
                   : msg.role === 'system' 
-                    ? 'bg-brand-beige text-slate-500 text-sm italic mx-auto border border-brand-gold/20 py-2 px-4'
-                    : 'bg-white border border-brand-beige text-brand-navy rounded-bl-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]'
+                    ? 'bg-brand-beige dark:bg-ink-700 text-slate-500 dark:text-slate-400 text-sm italic mx-auto border border-brand-gold/20 py-2 px-4'
+                    : 'bg-white dark:bg-ink-700 border border-brand-beige dark:border-ink-600 text-brand-navy dark:text-slate-100 rounded-bl-none shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]'
               }`}
             >
               {/* Message Header */}
@@ -367,7 +367,7 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
               )}
 
               <div className={`prose prose-base max-w-none 
-                ${msg.role === 'user' ? 'prose-invert prose-p:text-slate-100 prose-headings:text-white' : 'prose-slate prose-p:text-slate-700 prose-headings:text-brand-navy'}
+                ${msg.role === 'user' ? 'prose-invert prose-p:text-slate-100 prose-headings:text-white' : 'prose-slate dark:prose-invert prose-p:text-slate-700 dark:prose-p:text-slate-200 prose-headings:text-brand-navy dark:prose-headings:text-white'}
                 prose-headings:font-bold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base
                 prose-p:leading-relaxed
                 prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline
@@ -472,7 +472,7 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-white border-t border-brand-beige shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-10">
+      <div className="p-4 bg-white dark:bg-ink-800 border-t border-brand-beige dark:border-ink-700 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-10">
         {selectedImage && (
             <div className="flex items-center gap-2 mb-2 p-2 bg-brand-beige rounded-lg border border-brand-gold/20 w-fit animate-in slide-in-from-bottom-2">
                 <ImageIcon size={14} className="text-brand-gold" />
@@ -501,13 +501,13 @@ const ChatSession: React.FC<ChatSessionProps> = ({ mode, apiKey }) => {
             className="hidden"
           />
           
-          <div className="flex-1 bg-brand-beige border border-transparent focus-within:border-brand-gold/50 rounded-xl focus-within:ring-2 focus-within:ring-brand-gold/20 transition-all">
+          <div className="flex-1 bg-brand-beige dark:bg-ink-700 border border-transparent focus-within:border-brand-gold/50 rounded-xl focus-within:ring-2 focus-within:ring-brand-gold/20 transition-all">
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask a question..."
-              className="w-full bg-transparent p-3 max-h-32 min-h-[50px] resize-none focus:outline-none text-brand-navy placeholder:text-slate-400 leading-relaxed font-medium"
+              className="w-full bg-transparent p-3 max-h-32 min-h-[50px] resize-none focus:outline-none text-brand-navy dark:text-white placeholder:text-slate-400 leading-relaxed font-medium"
               rows={1}
             />
           </div>

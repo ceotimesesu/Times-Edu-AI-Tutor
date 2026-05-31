@@ -74,6 +74,10 @@ export type View =
   | { name: 'course'; courseId: string }
   | { name: 'topic'; courseId: string; topicId: string }
   | { name: 'formulas' }
+  | { name: 'dashboard' }
+  | { name: 'quiz'; courseId?: string }
+  | { name: 'exams' }
+  | { name: 'exam'; examId: string }
   | { name: 'tutor' };
 
 export interface ChatState {
