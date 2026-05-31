@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality } from '@google/genai';
 import { Mic, MicOff, PhoneOff, AlertCircle, RefreshCw, Volume2, Wifi, WifiOff } from 'lucide-react';
-import { SYSTEM_INSTRUCTION } from '../constants';
+import { SYSTEM_INSTRUCTION, MATH_FOCUS } from '../constants';
 import { createPcmBlob, decodeAudioData, base64ToUint8Array } from '../services/audioUtils';
 import { TutorMode } from '../types';
 
@@ -165,7 +165,7 @@ const LiveSession: React.FC<LiveSessionProps> = ({ apiKey, mode, onClose }) => {
            speechConfig: {
                voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } }
            },
-           systemInstruction: SYSTEM_INSTRUCTION + `\n\nCURRENT MODE: ${mode}. Speak naturally and concisely, as if we are on a voice call.`,
+           systemInstruction: SYSTEM_INSTRUCTION + MATH_FOCUS + `\n\nCURRENT MODE: ${mode}. Speak naturally and concisely, as if we are on a voice call.`,
         }
       });
 

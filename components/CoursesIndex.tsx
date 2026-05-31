@@ -1,0 +1,67 @@
+import React from 'react';
+import { ArrowRight, Sigma } from 'lucide-react';
+import { View } from '../types';
+import { COURSES } from '../data/curriculum';
+import { useAppState } from '../hooks/appState';
+
+interface CoursesIndexProps {
+  onNavigate: (view: View) => void;
+}
+
+const CoursesIndex: React.FC<CoursesIndexProps> = ({ onNavigate }) => {
+  const { courseStats } = useAppState();
+
+  return (
+    <div className="h-full overflow-y-auto">
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-brand-navy dark:text-white mb-2">Courses</h1>
+        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-2xl">
+          Pick the course you&apos;re studying. Each one is split into clear lessons with key formulas, worked
+          examples and exam-style practice questions.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {COURSES.map((course) => {
+            const stats = courseStats(course.id);
+            return (
+              <button
+                key={course.id}
+                onClick={() => onNavigate({ name: 'course', courseId: course.id })}
+                className="text-left group bg-white dark:bg-ink-800 rounded-2xl border border-brand-beige dark:border-ink-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden"
+              >
+                <div className={`h-2 bg-gradient-to-r ${course.accent}`} />
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-slate-200">
+                      {course.board}
+                    </span>
+                    <Sigma className="text-brand-gold" size={22} />
+                  </div>
+                  <h3 className="font-bold text-lg text-brand-navy dark:text-white leading-tight mb-1">{course.title}</h3>
+                  <p className="text-xs text-brand-gold font-semibold mb-3">{course.level}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{course.description}</p>
+
+                  {stats.topicsDone > 0 && (
+                    <div className="mb-4">
+                      <div className="h-1.5 rounded-full bg-brand-beige dark:bg-ink-700 overflow-hidden">
+                        <div className="h-full bg-brand-gold transition-all duration-500" style={{ width: `${stats.topicsPct}%` }} />
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-1">{stats.topicsPct}% complete</div>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-1 text-sm font-semibold text-brand-navy dark:text-white group-hover:text-brand-gold transition-colors">
+                    {course.topics.length} topics
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CoursesIndex;

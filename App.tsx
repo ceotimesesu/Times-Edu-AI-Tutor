@@ -1,197 +1,214 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, Settings, BookOpen, GraduationCap, Mic, MessageSquare, Menu, X, KeyRound } from 'lucide-react';
-import ChatSession from './components/ChatSession';
-import LiveSession from './components/LiveSession';
-import { TutorMode } from './types';
-import { TUTOR_MODES } from './constants';
+import {
+  Bot,
+  BookOpen,
+  Home,
+  Sigma,
+  MessageSquare,
+  Menu,
+  X,
+  Search,
+  Moon,
+  Sun,
+  LayoutDashboard,
+  FileText,
+  Flame,
+} from 'lucide-react';
+import HomePage from './components/HomePage';
+import CoursesIndex from './components/CoursesIndex';
+import CoursePage from './components/CoursePage';
+import TopicPage from './components/TopicPage';
+import FormulaSheet from './components/FormulaSheet';
+import TutorView from './components/TutorView';
+import Dashboard from './components/Dashboard';
+import QuizView from './components/QuizView';
+import { ExamsPage, ExamPaperView } from './components/Exams';
+import SearchModal from './components/SearchModal';
+import { View } from './types';
+import { APP_TAGLINE } from './constants';
+import { findCourse, findTopic } from './data/curriculum';
+import { useAppState } from './hooks/appState';
+
+const NAV: { label: string; icon: React.ElementType; view: View; match: View['name'][] }[] = [
+  { label: 'Home', icon: Home, view: { name: 'home' }, match: ['home'] },
+  { label: 'Courses', icon: BookOpen, view: { name: 'courses' }, match: ['courses', 'course', 'topic'] },
+  { label: 'Quiz', icon: Flame, view: { name: 'quiz' }, match: ['quiz'] },
+  { label: 'Exams', icon: FileText, view: { name: 'exams' }, match: ['exams', 'exam'] },
+  { label: 'Formulas', icon: Sigma, view: { name: 'formulas' }, match: ['formulas'] },
+  { label: 'AI Tutor', icon: MessageSquare, view: { name: 'tutor' }, match: ['tutor'] },
+];
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'chat' | 'live'>('chat');
-  const [tutorMode, setTutorMode] = useState<TutorMode>('guide');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
-  // API Key management
+  const [view, setView] = useState<View>({ name: 'home' });
   const [apiKey, setApiKey] = useState<string>(process.env.API_KEY || '');
-  const [showKeyModal, setShowKeyModal] = useState(!process.env.API_KEY);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const { dark, toggleDark } = useAppState();
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
-  const handleKeySubmit = (key: string) => {
-    setApiKey(key);
-    setShowKeyModal(false);
+  const navigate = (next: View) => {
+    setView(next);
+    setMobileNavOpen(false);
+    requestAnimationFrame(() => document.getElementById('app-scroll')?.scrollTo({ top: 0 }));
   };
 
+  // Global keyboard shortcuts: Cmd/Ctrl+K or "/" opens search.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(true);
+      } else if (e.key === '/' && !searchOpen) {
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          e.preventDefault();
+          setSearchOpen(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [searchOpen]);
+
+  const renderView = () => {
+    switch (view.name) {
+      case 'home':
+        return <HomePage onNavigate={navigate} />;
+      case 'courses':
+        return <CoursesIndex onNavigate={navigate} />;
+      case 'course': {
+        const course = findCourse(view.courseId);
+        if (!course) return <NotFound onHome={() => navigate({ name: 'courses' })} />;
+        return <CoursePage course={course} onNavigate={navigate} />;
+      }
+      case 'topic': {
+        const course = findCourse(view.courseId);
+        const topic = findTopic(view.courseId, view.topicId);
+        if (!course || !topic) return <NotFound onHome={() => navigate({ name: 'courses' })} />;
+        return <TopicPage course={course} topic={topic} onNavigate={navigate} />;
+      }
+      case 'formulas':
+        return <FormulaSheet onNavigate={navigate} />;
+      case 'dashboard':
+        return <Dashboard onNavigate={navigate} />;
+      case 'quiz':
+        return <QuizView courseId={view.courseId} onNavigate={navigate} />;
+      case 'exams':
+        return <ExamsPage onNavigate={navigate} />;
+      case 'exam':
+        return <ExamPaperView examId={view.examId} onNavigate={navigate} />;
+      case 'tutor':
+        return <TutorView apiKey={apiKey} onKeySubmit={setApiKey} />;
+      default:
+        return <HomePage onNavigate={navigate} />;
+    }
+  };
+
+  const iconBtn =
+    'w-9 h-9 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-brand-beige dark:hover:bg-ink-700 hover:text-brand-navy dark:hover:text-white transition-colors';
+
   return (
-    <div className="flex h-screen bg-brand-beige text-brand-navy font-sans overflow-hidden">
-      
-      {/* API Key Modal (Fallback) */}
-      {showKeyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-navy/60 backdrop-blur-sm">
-          <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-brand-beige">
-            <div className="flex items-center gap-3 mb-6 text-brand-navy">
-                <KeyRound size={28} className="text-brand-gold" />
-                <h2 className="text-2xl font-bold">Enter Access Key</h2>
+    <div className="flex flex-col h-screen bg-brand-beige dark:bg-ink-900 text-brand-navy dark:text-slate-200 font-sans overflow-hidden">
+      <header className="bg-white dark:bg-ink-800 border-b border-brand-beige dark:border-ink-700 z-30 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-3">
+          <button onClick={() => navigate({ name: 'home' })} className="flex items-center gap-3 shrink-0">
+            <div className="w-10 h-10 bg-brand-navy rounded-xl flex items-center justify-center text-brand-gold shadow-lg shadow-brand-navy/20">
+              <Bot size={22} />
             </div>
-            <p className="text-slate-600 mb-6">
-              To start your session with Times Edu AI Tutor, please provide your Gemini API key.
-            </p>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                const form = e.target as HTMLFormElement;
-                const input = form.elements.namedItem('key') as HTMLInputElement;
-                handleKeySubmit(input.value);
-            }}>
-                <input 
-                    name="key"
-                    type="password" 
-                    placeholder="API Key" 
-                    className="w-full p-4 bg-brand-beige border border-slate-200 rounded-xl mb-4 focus:ring-2 focus:ring-brand-gold outline-none text-brand-navy"
-                    autoFocus
-                />
-                <button type="submit" className="w-full bg-brand-navy text-white py-4 rounded-xl font-semibold hover:bg-opacity-90 transition-colors border border-transparent hover:border-brand-gold">
-                    Start Learning
+            <div className="text-left hidden sm:block">
+              <h1 className="font-bold text-base text-brand-navy dark:text-white leading-tight">Times Edu</h1>
+              <p className="text-[10px] text-brand-gold font-bold tracking-wide uppercase">{APP_TAGLINE}</p>
+            </div>
+          </button>
+
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {NAV.map((item) => {
+              const active = item.match.includes(view.name);
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.view)}
+                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                    active
+                      ? 'bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-white'
+                      : 'text-slate-500 dark:text-slate-300 hover:bg-brand-beige/60 dark:hover:bg-ink-700/60'
+                  }`}
+                >
+                  <item.icon size={16} className={active ? 'text-brand-gold' : ''} />
+                  {item.label}
                 </button>
-            </form>
-            <div className="mt-4 text-xs text-slate-400 text-center">
-                Your key is used locally and never stored on our servers.
-            </div>
+              );
+            })}
+          </nav>
+
+          {/* Right cluster */}
+          <div className="flex items-center gap-1">
+            <button onClick={() => setSearchOpen(true)} className={iconBtn} title="Search (⌘K)" aria-label="Search">
+              <Search size={18} />
+            </button>
+            <button
+              onClick={() => navigate({ name: 'dashboard' })}
+              className={`${iconBtn} ${view.name === 'dashboard' ? 'bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-white' : ''}`}
+              title="My progress"
+              aria-label="My progress"
+            >
+              <LayoutDashboard size={18} />
+            </button>
+            <button onClick={toggleDark} className={iconBtn} title="Toggle theme" aria-label="Toggle theme">
+              {dark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button onClick={() => setMobileNavOpen((o) => !o)} className={`${iconBtn} lg:hidden`} aria-label="Menu">
+              {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
-      )}
 
-      {/* Sidebar - Desktop & Mobile */}
-      <div 
-        className={`fixed inset-y-0 left-0 z-40 w-80 bg-white border-r border-slate-200 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="p-6 border-b border-brand-beige flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand-navy rounded-xl flex items-center justify-center text-brand-gold shadow-lg shadow-brand-navy/20">
-                <Bot size={24} />
-              </div>
-              <div>
-                <h1 className="font-bold text-lg text-brand-navy leading-tight">Times Edu</h1>
-                <p className="text-xs text-brand-gold font-bold tracking-wide">AI TUTOR</p>
-              </div>
-            </div>
-            <button onClick={toggleSidebar} className="md:hidden text-slate-400">
-                <X size={24} />
-            </button>
-          </div>
-
-          {/* Navigation */}
-          <div className="p-4 space-y-2 flex-1 overflow-y-auto">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Session Type</div>
-            
+        {/* Mobile nav */}
+        {mobileNavOpen && (
+          <nav className="lg:hidden border-t border-brand-beige dark:border-ink-700 bg-white dark:bg-ink-800 px-4 py-2 space-y-1 animate-fade-in">
+            {NAV.map((item) => {
+              const active = item.match.includes(view.name);
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.view)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                    active
+                      ? 'bg-brand-beige dark:bg-ink-700 text-brand-navy dark:text-white'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-brand-beige/60 dark:hover:bg-ink-700/60'
+                  }`}
+                >
+                  <item.icon size={18} className={active ? 'text-brand-gold' : ''} />
+                  {item.label}
+                </button>
+              );
+            })}
             <button
-              onClick={() => { setActiveTab('chat'); setIsSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'chat' ? 'bg-brand-beige text-brand-navy font-bold' : 'text-slate-600 hover:bg-slate-50'
-              }`}
+              onClick={() => navigate({ name: 'dashboard' })}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-brand-beige/60 dark:hover:bg-ink-700/60 transition-colors"
             >
-              <MessageSquare size={20} className={activeTab === 'chat' ? 'text-brand-gold' : ''} />
-              <span>Text Chat</span>
+              <LayoutDashboard size={18} /> My progress
             </button>
-            
-            <button
-              onClick={() => { setActiveTab('live'); setIsSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'live' ? 'bg-brand-beige text-brand-navy font-bold' : 'text-slate-600 hover:bg-slate-50'
-              }`}
-            >
-              <Mic size={20} className={activeTab === 'live' ? 'text-brand-gold' : ''} />
-              <span>Live Voice Tutor</span>
-              <span className="ml-auto text-[10px] bg-brand-gold text-white px-2 py-0.5 rounded-full font-bold">BETA</span>
-            </button>
+          </nav>
+        )}
+      </header>
 
-            <div className="my-6 border-t border-brand-beige"></div>
+      <main id="app-scroll" className="flex-1 overflow-y-auto">
+        {renderView()}
+      </main>
 
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Learning Style</div>
-            <div className="space-y-2">
-                {TUTOR_MODES.map((mode) => (
-                    <button
-                        key={mode.id}
-                        onClick={() => setTutorMode(mode.id)}
-                        className={`w-full text-left p-3 rounded-xl border transition-all ${
-                            tutorMode === mode.id 
-                            ? 'border-brand-gold bg-brand-beige ring-1 ring-brand-gold/30' 
-                            : 'border-transparent hover:bg-slate-50'
-                        }`}
-                    >
-                        <div className={`font-semibold text-sm mb-0.5 ${tutorMode === mode.id ? 'text-brand-navy' : 'text-slate-700'}`}>
-                            {mode.label}
-                        </div>
-                        <div className="text-xs text-slate-500 leading-snug">
-                            {mode.description}
-                        </div>
-                    </button>
-                ))}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="p-4 border-t border-brand-beige">
-            <div className="bg-brand-beige p-4 rounded-xl border border-brand-gold/20">
-                <div className="flex items-center gap-2 text-brand-navy font-semibold text-sm mb-1">
-                    <GraduationCap size={16} className="text-brand-gold" />
-                    <span>Pro Tip</span>
-                </div>
-                <p className="text-xs text-slate-600">
-                    Upload photos of math problems or essays for instant feedback!
-                </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col h-full relative">
-        {/* Mobile Header */}
-        <header className="md:hidden bg-white border-b border-brand-beige p-4 flex items-center justify-between z-30">
-            <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-brand-navy rounded-lg flex items-center justify-center text-brand-gold">
-                    <Bot size={18} />
-                </div>
-                <span className="font-bold text-brand-navy">Times Edu</span>
-            </div>
-            <button onClick={toggleSidebar} className="text-brand-navy">
-                <Menu size={24} />
-            </button>
-        </header>
-
-        <main className="flex-1 p-4 md:p-6 overflow-hidden h-full">
-            <div className="max-w-4xl mx-auto h-full w-full">
-                {apiKey ? (
-                    activeTab === 'chat' ? (
-                        <ChatSession mode={tutorMode} apiKey={apiKey} />
-                    ) : (
-                        <LiveSession 
-                            mode={tutorMode} 
-                            apiKey={apiKey} 
-                            onClose={() => setActiveTab('chat')} 
-                        />
-                    )
-                ) : (
-                    <div className="h-full flex items-center justify-center text-slate-400">
-                        Please enter API Key to start.
-                    </div>
-                )}
-            </div>
-        </main>
-      </div>
-
-      {/* Overlay for mobile sidebar */}
-      {isSidebarOpen && (
-        <div 
-            className="fixed inset-0 bg-brand-navy/20 z-30 md:hidden backdrop-blur-sm"
-            onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} onNavigate={navigate} />}
     </div>
   );
 };
+
+const NotFound: React.FC<{ onHome: () => void }> = ({ onHome }) => (
+  <div className="h-full flex flex-col items-center justify-center text-center p-6">
+    <p className="text-slate-500 dark:text-slate-400 mb-4">Sorry, we couldn&apos;t find that page.</p>
+    <button onClick={onHome} className="bg-brand-navy text-white px-5 py-2.5 rounded-xl font-semibold">
+      Back to courses
+    </button>
+  </div>
+);
 
 export default App;

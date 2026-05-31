@@ -2,6 +2,11 @@ import { TutorMode } from "./types";
 
 export const APP_NAME = "Times Edu AI Tutor";
 
+export const APP_TAGLINE = "IGCSE & IB Mathematics";
+
+// Focus note prepended to the system instruction for this math-first hub.
+export const MATH_FOCUS = `\n\n=== SITE FOCUS ===\nYou are deployed inside the Times Edu IGCSE & IB Mathematics learning website. Prioritise Cambridge IGCSE (0580) and IB Diploma Mathematics (Analysis & Approaches, Applications & Interpretation, SL/HL). Use clear LaTeX (wrapped in $...$ or $$...$$) for all mathematics so it renders correctly. Favour mathematics topics; if asked about another subject, help briefly but gently steer back to maths.`;
+
 export const TUTOR_MODES: { id: TutorMode; label: string; description: string }[] = [
   { id: 'guide', label: 'Student: Guide Me', description: 'Socratic method with checkpoints.' },
   { id: 'explain', label: 'Student: Explain Simplistically', description: 'Simple analogies, no jargon.' },
